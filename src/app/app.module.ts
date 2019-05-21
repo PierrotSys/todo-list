@@ -26,6 +26,9 @@ import {TodoEffects} from './store/todo/todo.effects';
 import {EffectsModule} from '@ngrx/effects';
 import {HttpClientModule} from '@angular/common/http';
 import {mockedBackendProvider} from './interceptor/mocked-backend-interceptor.service';
+import { UserService } from './services/user.service';
+import { AuthorizationManagerService } from './services/authorization-manager.service';
+import { UserEffects } from './store/user/user.effects';
 
 const appRoutes: Routes = [
   {
@@ -65,9 +68,9 @@ const appRoutes: Routes = [
     MatDialogModule,
     MatProgressBarModule,
     StoreModule.forRoot(reducers, {initialState: INITIAL_STATE}),
-    EffectsModule.forRoot([TodoEffects])
+    EffectsModule.forRoot([TodoEffects, UserEffects])
   ],
-  providers: [mockedBackendProvider],
+  providers: [mockedBackendProvider, UserService, AuthorizationManagerService],
   bootstrap: [AppComponent],
   entryComponents: [NewTodoComponent]
 })

@@ -58,7 +58,7 @@ describe('TodoListComponent', () => {
 
   beforeEach(inject([Store], (testStore: TestStore<IAppStore>) => {
     store = testStore; // save store reference for use in tests
-    store.setState({toDoList: []}); // set default state
+    store.setState({toDoList: [], authenticationState: {authenticated: false, user: null}}); // set default state
   }));
 
   it('should create', () => {
@@ -67,7 +67,8 @@ describe('TodoListComponent', () => {
 
   it('should sort Todo List', () => {
     store.setState({
-        toDoList: []
+        toDoList: [], 
+        authenticationState: {authenticated: false, user: null}
       }
     );
     const todoList = new Array<Todo>();

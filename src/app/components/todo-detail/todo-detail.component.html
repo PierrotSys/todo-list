@@ -15,7 +15,7 @@
         done
       </i>
     </button>
-    <button mat-raised-button *ngIf="!editMode" (click)="deleteTodo(todo)" color="warn" class="action-btn">
+    <button mat-raised-button *ngIf="showDeleteButton && !editMode" (click)="deleteTodo(todo)" color="warn" class="action-btn">
       <i class="material-icons">
         delete_forever
       </i>
@@ -40,7 +40,7 @@
       </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
-      <mat-radio-group [(ngModel)]="todo.state">
+      <mat-radio-group *ngIf="showStateRadioButtons" [(ngModel)]="todo.state">
         <mat-radio-button value="{{todoStateEnum.toDo}}">To Do</mat-radio-button>
         <mat-radio-button value="{{todoStateEnum.inProgress}}">In Progress</mat-radio-button>
         <mat-radio-button value="{{todoStateEnum.done}}">Done</mat-radio-button>

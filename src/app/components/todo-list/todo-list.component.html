@@ -1,15 +1,15 @@
 <div class="content" align="center">
   <ul class="todos-list" *ngIf="todos | async; let todos;">
-    <ng-container *ngFor="let todo of sortTodos(todos)">
+    <ng-container *ngFor="let todo of filterAndSortTodos(todos)">
       <li class="todo-card-item">
         <mat-grid-list cols="10">
-          <mat-grid-tile [colspan]="7">
+          <mat-grid-tile [colspan]="showStateRadioButtons ? 7 : 10">
             <app-todo-list-item
               [todo]="todo"
               (click)="seeDetail(todo.id)"
             ></app-todo-list-item>
           </mat-grid-tile>
-          <section class="example-section">
+          <section class="example-section" *ngIf="showStateRadioButtons">
             <mat-radio-group [(ngModel)]="todo.state">
               <mat-grid-tile [colspan]="1">
                 <mat-radio-button value="{{todoStateEnum.toDo}}">To Do</mat-radio-button>
@@ -28,6 +28,5 @@
     </ng-container>
   </ul>
 </div>
-
 
 

@@ -8,6 +8,8 @@ import {Observable} from 'rxjs';
 import * as selectors from '../../store/todo/todo.selectors';
 import {RouterService} from '../../services/router.service';
 import {TodoStateEnum} from '../../enum/todo-state.enum';
+import { AuthorizationManagerService } from 'src/app/services/authorization-manager.service';
+import { RightEnum } from 'src/app/enum/authorization.enum';
 
 @Component({
   selector: 'app-todo-detail',
@@ -20,10 +22,14 @@ export class TodoDetailComponent implements OnInit {
   todo: Observable<Todo>;
   editMode: boolean;
   todoStateEnum = TodoStateEnum;
+  
+  showStateRadioButtons = false;
+  showDeleteButton = false;
 
   constructor(private route: ActivatedRoute,
               private store: Store<IAppStore>,
-              private routerService: RouterService) {
+              private routerService: RouterService,
+              private authorizationManagerService: AuthorizationManagerService) {
   }
 
   ngOnInit() {
@@ -34,6 +40,9 @@ export class TodoDetailComponent implements OnInit {
       }
     });
     this.editMode = false;
+    // check user rights
+    this.authorizationManagerService.hasRight(RightEnum.TODO_TODOLIST_U_STATE).then((val) => this.showStateRadioButtons = val);
+    this.authorizationManagerService.hasRight(RightEnum.TODO_TODOLIST_D).then((val) => this.showDeleteButton = val);
   }
 
   /**
@@ -65,4 +74,5 @@ export class TodoDetailComponent implements OnInit {
     this.store.dispatch(new TodoActions.DeleteTodo(todo));
     this.goBack();
   }
+
 }

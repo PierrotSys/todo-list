@@ -51,7 +51,7 @@ describe('TodoListItemComponent', () => {
 
   beforeEach(inject([Store], (testStore: TestStore<IAppStore>) => {
     store = testStore; // save store reference for use in tests
-    store.setState({toDoList: []}); // set default state
+    store.setState({toDoList: [], authenticationState: {authenticated: false, user: null}}); // set default state
   }));
 
   beforeEach(() => {

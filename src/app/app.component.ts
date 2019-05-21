@@ -1,10 +1,12 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
 
-import {IAppStore} from './store/store.models';
+import { IAppStore } from './store/store.models';
 import * as TodoActions from './store/todo/todo.action';
-import {NewTodoComponent} from './components/new-todo/new-todo.component';
-import {MatDialog} from '@angular/material';
+import * as UserActions from './store/user/user.action';
+import { NewTodoComponent } from './components/new-todo/new-todo.component';
+import { MatDialog } from '@angular/material';
+import { UserProfileEnum } from './enum/user-profile.enum';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +14,14 @@ import {MatDialog} from '@angular/material';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
-  constructor(private store: Store<IAppStore>, private dialog: MatDialog) {
-  }
+  constructor(private store: Store<IAppStore>, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.store.dispatch(new TodoActions.GetTodos());
+
+    // simulating authentication
+    this.onUserAuthenticated('currentUser');
+    //this.onUserAuthenticated('otherUser');
   }
 
   /**
@@ -37,5 +41,12 @@ export class AppComponent implements OnInit {
    */
   onAddTodo(newTodo) {
     this.store.dispatch(new TodoActions.AddTodo(newTodo));
+  }
+
+  /**
+   * Reference authenticated user to store
+   */
+  onUserAuthenticated(user) {
+    this.store.dispatch(new UserActions.AuthenticateAction(user));
   }
 }
